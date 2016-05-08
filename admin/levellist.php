@@ -1,0 +1,159 @@
+<?php include 'include/secureHeader.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Taalmeter">
+    <meta name="author" content="wjansen">
+
+    <title>Taalmeter</title>
+
+    <!-- Bootstrap Core CSS -->
+    <?php include 'include/cssstart.php'; ?>
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <?php include 'include/navigationadministration.php'; ?>
+
+
+
+        
+
+<?php
+
+
+//create a database connection
+include 'include/constants.inc.php';
+
+
+//select database
+if(!@mysql_connect($DB_HOST,$DB_USER,$DB_PASS)) {
+  echo '<h1>MySQL Server is not connected</h1>';
+  exit;
+}
+
+if(!@mysql_select_db($DB_NAME)){
+  echo '<h1>Database can not be found</h>';
+  exit;
+}
+
+?>
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="page-header">Niveau lijst</h2>
+    </div>
+        <!-- /.col-lg-12 -->
+  </div>
+
+<?php
+//create the query
+$result = mysql_query("select levelid, level, departmentcode, weighttalking, weightwriting, weightreading, weightlistening from level");
+
+if (!$result){
+  echo 'select attitude error' . mysql_error();
+  exit();
+}
+?>
+
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel-body">
+        <div class="dataTable_wrapper">
+          <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+    <thead>
+    <tr>
+      <th>Niveau Id</th>
+      <th>Niveau</th>
+      <th>Departement code</th>
+      <th>Weging spreken</th>
+      <th>Weging schrijven</th>
+      <th>Weging lezen</th>
+      <th>Weging luisteren</th>
+      <th></th>
+    </tr>  
+    </thead>  
+    <tbody>
+<?php
+
+
+while ($row = mysql_fetch_array($result))
+{
+?>
+    <tr>
+      <td>
+        <?php 
+        echo $row['levelid'];
+        ?>
+      </td>
+      <td>
+        <?php 
+        echo $row['level'];
+        ?>
+      </td>
+      <td>
+        <?php 
+        echo $row['departmentcode'];
+        ?>
+      </td>
+      <td>
+        <?php 
+        echo $row['weighttalking'];
+        ?>
+      </td>
+      <td>
+        <?php 
+        echo $row['weightwriting'];
+        ?>
+      </td>
+      <td>
+        <?php 
+        echo $row['weightreading'];
+        ?>
+      </td>
+      <td>
+        <?php 
+        echo $row['weightlistening'];
+        ?>
+      </td>
+      <td align="right"> 
+        <a href="levelmodify.php?id=<?php echo $row['levelid'];?>"><i class="fa fa-edit fa-fw"></i></a>
+      </td>
+    </tr>
+<?php 
+} 
+
+?>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+    <!-- jQuery -->
+    <?php include 'include/cssend.php'; ?>
+</body>
+
+</html>
+
+
+
+
